@@ -24,6 +24,8 @@
 
         <div class="container">
             <div class="content">
+                From <input type='date' id='startdate'> To
+                <input type='date' id='enddate'>
                 <div class="table-responsive">
 				<table class="table dataTable table-hover cust_table" id="table_1">
 					<thead class="back_blue">
@@ -70,8 +72,35 @@
 			</div>
 		</div>
 <script>
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
+    });
+    Date.prototype.isValid = function () {
+        // An invalid date object returns NaN for getTime() and NaN is the only
+        // object not strictly equal to itself.
+        return this.getTime() === this.getTime();
+    };
+    $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+            var startdate = new Date($('#startdate').val());
+            var enddate = new Date($('#enddate').val());
+            var pubdate = new Date(data[14]) || 0; // use data for the age column
+            
+            console.log(startdate.isValid());
+            if (  (!startdate.isValid() &&  !enddate.isValid()) || (startdate < pubdate && !enddate.isValid()) || (startdate < pubdate && pubdate < enddate) || ( !startdate.isValid() && pubdate < enddate))
+            {
+                return true;
+            }
+            return false;
+        }
+    );
     $(document).ready(function() {
-        $('#table_1').DataTable({
+        console.log(new Date().toDateInputValue());
+        $('#startdate').val(new Date().toDateInputValue());
+        $('#enddate').val(new Date().toDateInputValue());
+        var table =  $('#table_1').DataTable({
             dom: 'Bfrtip',
             "pageLength": 15,
             buttons: [
@@ -81,7 +110,10 @@
                 'pdfHtml5'
             ]
         });
-        
+        $('#startdate, #enddate').change( function() {
+            
+            table.draw();
+        } );
         $('#table_1 tr').click(function() {
         var href = $(this).find("a").attr("href");
         if(href) {

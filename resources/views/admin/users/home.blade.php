@@ -25,6 +25,11 @@
             <div class="content">
                 <div class="heading_til">
                     <h2>All Users</h2>
+                    @if ($success == "success")
+                    <div class="alert alert-success" >
+                        reset success
+                    </div>
+                    @endif
                      @if (session('success'))
                     <div class="alert alert-success" >
                     {{ session('success') }}
@@ -48,6 +53,7 @@
                         <td align="center" colspan="5" width="400" scope="colgroup" style="vertical-align:middle;">Edit Level</td>
                         <td align="center" rowspan="2" style="vertical-align:middle;width:200px;">Created At</td>
                         <td align="center" rowspan="2" style="vertical-align:middle;width:200px;">Location</td>
+                        <td align="center" rowspan="2" style="vertical-align:middle;width:200px;">Reset Password</td>
                     </tr>
                     <tr>
                         <th scope="col" style="vertical-align:middle;text-align:center;">Enforcement</th>
@@ -74,7 +80,8 @@
                             <td style="vertical-align:middle;" align="center"><input {{ $row->gbv_level == 1 ? 'checked' : '' }} type="checkbox" class="levelaccepted4"  value={{$row->id}}></td>
                             <td style="vertical-align:middle;" align="center"><input {{ $row->chv_level == 1 ? 'checked' : '' }} type="checkbox" class="levelaccepted5"  value={{$row->id}}></td>
                             <td  style="vertical-align:middle;" align="center">{{ $row->created_at }}</td>
-                        <td>{{ strtoupper($row->state) }}</td>
+                            <td>{{ strtoupper($row->state) }}</td>
+                            <td><a class="basicreset" data-id="{{ $row->id }}" data-toggle="modal"><i class="fa fa-exchange" data-toggle="tooltip" title="Reset"></i></a></td>
                     </tr>
                 @endforeach
 				</table>
@@ -82,6 +89,30 @@
 			</div>
 			</form>
             </div>
+            </div>
+            <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title">Reset Password</h4>
+                        </div>
+                        <form id="resetform" class="modal-content" action="{{ url('resetpwd')}}" method="post">
+                            @csrf
+                        <div class="modal-body row">
+                            <input type='hidden' name='userid' id='userid'>
+                            <div class="col-md-6">Password : <input type='password' name='resetpwd' id='resetpwd'></div>
+                            <div class="col-md-6">Confirm : <input type='password' id='rresetpwd'></div>                        
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                            <button id='resetbtn' type="button" class="btn blue">Save changes</button>
+                        </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
             </div>
     <script>
     $(document).ready(function() {
@@ -95,6 +126,18 @@
                 'pdfHtml5',
             ]
         });
+    });
+
+    $('.basicreset').click(function(){
+        $('#userid').val($(this).data('id'));
+        $('#basic').modal('show');
+    });
+    $('#resetbtn').click(function(){
+        if($('#resetpwd').val() != $('#rresetpwd').val()){
+            alert('Please Again')
+        }else{
+            $('#resetform').submit();
+        }
     });
 
     $('.levelaccepted1').change(function () {

@@ -23,7 +23,10 @@ setcookie('value', 1, time() + (86400 * 30), "/"); // 86400 = 1 day
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
  
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+  <link href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="{{ asset('css/_sidebar.scss') }}">
   
   <!-- Morris chart -->
@@ -837,13 +840,22 @@ div.dataTables_wrapper div.dataTables_filter input {
           </li>   
 
             <li class="nav-item">
-            <a href="{{ url('admin/users')}}"  class="nav-link {{ Request::segment(2) == 'users'? 'active':'' }}">
-            <i class="fa fa-users"></i>
-              <p>
-                Users
-              </p>
-            </a>
-          </li>
+              <a href="{{ url('admin/users')}}"  class="nav-link {{ Request::segment(2) == 'users'? 'active':'' }}">
+              <i class="fa fa-users"></i>
+                <p>
+                  Users
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ url('admin/collect')}}"  class="nav-link {{ Request::segment(2) == 'collect'? 'active':'' }}">
+              <i class="fa fa-users"></i>
+                <p>
+                  Collection Center
+                </p>
+              </a>
+            </li>
           
 {{--           <li class="nav-item">--}}
 {{--            <a href="{{ url('admin/all_msg')}}"  class="nav-link {{ Request::segment(2) == 'all_msg'? 'active':'' }}">--}}
@@ -938,7 +950,7 @@ div.dataTables_wrapper div.dataTables_filter input {
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
+          <!-- <li class="nav-item has-treeview">
             <a href="#" class="nav-link ">
               <i class="nav-icon fa fa-files-o"></i>
               <p>
@@ -946,14 +958,14 @@ div.dataTables_wrapper div.dataTables_filter input {
                 <i class="fa fa-angle-right right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview" style="display: none;">
+            <ul class="nav nav-treeview" style="display: none;"> -->
               <li class="nav-item">
                 <!--<a href="{{ url('admin/report_logs')}}" class="nav-link {{ Request::segment(2) == 'report_logs'? 'active':'' }}">-->
                 <!--  <i class="fa fa-file nav-icon"></i>-->
                 <!--  <p>Report Logs</p>-->
                 <!--</a>-->
                   <li class="nav-item has-treeview">
-            <a href="#" class="nav-link " style="padding-left: 25px !important;">
+            <a href="#" class="nav-link ">
               <i class="nav-icon fa fa-file"></i>
               <p>
                 Report Logs
@@ -1001,7 +1013,7 @@ div.dataTables_wrapper div.dataTables_filter input {
               <!--  </a>-->
               <!--</li>-->
               <li class="nav-item has-treeview">
-            <a href="#" class="nav-link "  style="padding-left: 25px !important;">
+            <a href="#" class="nav-link ">
               <i class="nav-icon fa fa-file"></i>
               <p>
                 Check In Logs
@@ -1029,7 +1041,7 @@ div.dataTables_wrapper div.dataTables_filter input {
               <!--</li>-->
             </ul>
           </li>
-            </ul>
+            <!-- </ul> -->
           </li>
           
           

@@ -5,7 +5,9 @@ use App\Admins;
 use App\Passenger;
 use App\Tracing;
 use App\User;
+use App\Collect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use Session;
 use Mapper;
@@ -95,11 +97,49 @@ class MainController extends Controller
     	return view('admin.dashboard', compact('count_array'));
     }
     
-    public function all_users(){
+    public function all_users(Request $requests){
         $users = User::get()->all();
-        return view('admin.users.home', compact('users'));
+        $success = $requests->success == 'success' ? $requests->success :'failed';
+        return view('admin.users.home', compact('users', 'success'));
     }
     
+    public function collect(Request $requests){
+        $collect = Collect::get()->all();
+        $success = $requests->success == 'success' ? $requests->success :'failed';
+        // dd($collect);
+        return view('admin.collect.home', compact('collect', 'success'));
+    }
+
+    public function resetpwd(Request $requests){
+        $users = User::find($requests->userid);
+        $users->password = Hash::make($requests->resetpwd);
+        $users->save();
+        return redirect('admin/users?success=success');
+    }
+
+    public function createcollection(Request $requests){
+        // dd($requests->all());
+        $collection = new Collect;
+        $collection->collection_name = $requests->collection_name;
+        $collection->save();
+        return redirect('admin/collect?success=success');
+    }
+
+    public function editcollection(Request $requests){
+        // dd($requests->all());
+        $collection = Collect::find($requests->collection_id);
+        $collection->collection_name = $requests->collection_name;
+        $collection->save();
+        return redirect('admin/collect?success=success');
+    }
+
+    public function delcollection(Request $requests){
+        // dd($requests->all());
+        $collection = Collect::find($requests->collection_id);
+        $collection->delete();
+        return redirect('admin/collect?success=success');
+    }
+
     public function all_report_logs(){
         $all_report_logs = Reports::orderBy('id', 'DESC')->get();
         return view('admin.logs.all_report_logs', compact('all_report_logs'));

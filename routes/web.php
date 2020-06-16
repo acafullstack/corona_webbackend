@@ -43,6 +43,16 @@ Route::group(['middleware' => 'authenticated'], function () {
     Route::post('admin/users/setlevel5', 'MainController@set_level5');
     Route::post('admin/users/unsetlevel5', 'MainController@unset_level5');
 
+
+    Route::get('admin/collect', 'MainController@collect');
+    Route::post('resetpwd', 'MainController@resetpwd');
+    Route::post('createcollection', 'MainController@createcollection');
+    Route::post('editcollection', 'MainController@editcollection');
+    Route::post('delcollection', 'MainController@delcollection');
+
+
+
+
     //all_report_logs
     Route::get('admin/all_report_logs', 'MainController@all_report_logs');
     //symptom_related_report_logs
