@@ -31,9 +31,19 @@
                 
                 <div class="heading_til">
                     <h2>All Reports</h2>
-                </div>
-                User : <input type='text' id='usershr'> Collection Name :
-                <input type='text' id='colletshr'>
+				</div>
+				User : <select class="usersel" name="state">
+					@foreach($users as $key => $user)
+					<option value="{{$user->id}}">{{$user->first_name}} {{$user->last_name}}</option>
+					@endforeach
+				</select>
+				 Collection Name : <select class="collectsel" name="state">
+					@foreach($collect as $key => $val)
+					<option value="{{$val->id}}">{{$val->collection_name}}</option>
+					@endforeach
+				</select>
+                <input type='hidden' id='usershr'> 
+                <input type='hidden' id='colletshr'>
                 <div class="table-responsive">
 				<table class="table dataTable table-hover cust_table" id="table_1">
 					<thead class="back_blue">
@@ -85,7 +95,8 @@
 				</table>
 			</div>
 		</div>
-	
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
 	$.fn.dataTable.ext.search.push(
         function( settings, data, dataIndex ) {
@@ -103,6 +114,8 @@
         }
     );
     $(document).ready(function() {
+		$('.usersel').select2();
+		$('.collectsel').select2();
         var table =  $('#table_1').DataTable({
             dom: 'Bfrtip',
             "pageLength": 15,
@@ -114,7 +127,19 @@
             ]
 		});
 		
-		$('#usershr, #colletshr').keyup( function() {
+		$('.usersel').on('select2:select', function (e) {
+			// console.log(e.params.data);
+			$('#usershr').val(e.params.data.text);
+			$('#usershr').trigger('change');
+		});
+		$('.collectsel').on('select2:select', function (e) {
+			// console.log(e.params.data);
+			$('#colletshr').val(e.params.data.text);
+			$('#colletshr').trigger('change');
+		});
+
+		$('#usershr, #colletshr').change( function() {
+			// alert();
 			table.draw();
 		} );
         
