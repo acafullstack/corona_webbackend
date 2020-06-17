@@ -32,7 +32,8 @@
                 <div class="heading_til">
                     <h2>All Reports</h2>
                 </div>
-                
+                User : <input type='text' id='usershr'> Collection Name :
+                <input type='text' id='colletshr'>
                 <div class="table-responsive">
 				<table class="table dataTable table-hover cust_table" id="table_1">
 					<thead class="back_blue">
@@ -46,6 +47,7 @@
 							<th>Notes</th>
 							<th>Location</th>							
 							<th>Time</th>							
+							<th>Collection Name</th>							
 						</tr>
 					</thead>
 					<tbody>
@@ -76,6 +78,7 @@
 							@endif
 							<td>{{ $log->address }}</td>
 							<td>{{ date("d/m/Y H:i:s", strtotime($log->created_at)) }}</td>
+							<td>{{ $log->collect->collection_name }}</td>
 						</tr>
 						@endforeach
 					</tbody>
@@ -84,8 +87,23 @@
 		</div>
 	
 <script>
+	$.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+            var usershr = $('#usershr').val();
+            var colletshr = $('#colletshr').val();
+            var user = data[1] || ''; // use data for the user column
+            var collect = data[9] || ''; // use data for the collect column
+            
+            // console.log(usershr == '');
+            if ( (usershr == '' &&  colletshr == '') || (user.search(new RegExp(usershr, "i")) != -1 && collect.search(new RegExp(colletshr, "i")) != -1) )
+            {
+                return true;
+            }
+            return false;
+        }
+    );
     $(document).ready(function() {
-        $('#table_1').DataTable({
+        var table =  $('#table_1').DataTable({
             dom: 'Bfrtip',
             "pageLength": 15,
             buttons: [
@@ -94,14 +112,18 @@
                 'csvHtml5',
                 'pdfHtml5'
             ]
-        });
+		});
+		
+		$('#usershr, #colletshr').keyup( function() {
+			table.draw();
+		} );
         
         $('#table_1 tr').click(function() {
-        var href = $(this).find("a").attr("href");
-        if(href) {
-            window.location = href;
-        }
-    });
-    });
+			var href = $(this).find("a").attr("href");
+			if(href) {
+				window.location = href;
+			}
+		});
+	});
 </script>
 @include('layouts.footer')
