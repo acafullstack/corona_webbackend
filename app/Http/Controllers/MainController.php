@@ -142,7 +142,10 @@ class MainController extends Controller
 
     public function all_report_logs(){
         $all_report_logs = Reports::orderBy('id', 'DESC')->get();
-        return view('admin.logs.all_report_logs', compact('all_report_logs'));
+        $users = User::get()->all();
+        $collect = Collect::get()->all();
+
+        return view('admin.logs.all_report_logs', compact('all_report_logs','users','collect'));
     }
     
     public function self_report_logs(){
