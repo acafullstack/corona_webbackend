@@ -114,6 +114,8 @@
         }
     );
     $(document).ready(function() {
+		$('.usersel').val(null);
+		$('.collectsel').val(null);
 		$('.usersel').select2();
 		$('.collectsel').select2();
         var table =  $('#table_1').DataTable({
