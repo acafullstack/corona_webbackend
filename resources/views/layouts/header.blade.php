@@ -26,7 +26,7 @@ setcookie('value', 1, time() + (86400 * 30), "/"); // 86400 = 1 day
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
   <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-  <link href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+  <!-- <link href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/> -->
   <link rel="stylesheet" href="{{ asset('css/_sidebar.scss') }}">
   
   <!-- Morris chart -->
