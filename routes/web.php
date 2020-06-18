@@ -81,6 +81,7 @@ Route::group(['middleware' => 'authenticated'], function () {
 
     Route::get('admin/tracing', 'MainController@get_tracing');
     Route::get('admin/tracing_passenger', 'MainController@get_tracing_passenger');
+    Route::get('admin/ajax_tracing_passenger', 'MainController@ajax_tracing_passenger');
 
 
     Route::get('admin/gbv', 'MainController@get_gbv');

@@ -168,8 +168,35 @@ class MainController extends Controller
         return view('admin.tracing.check_in_logs', compact('all_check_ins'));
     }
     public function get_tracing_passenger(){
-        $all_check_ins = Passenger::orderBy('id', 'DESC')->get();
+        $all_check_ins = Passenger::orderBy('id', 'DESC')->where('publish_date', 'like', date("d/m/Y").'%')->get();
+        // dd($all_check_ins);
         return view('admin.passenger.check_in_logs', compact('all_check_ins'));
+    }
+    public function ajax_tracing_passenger(Request $requests){
+        $from = date("d/m/Y",strtotime($requests->from));
+        $fromarr = explode("/", $from);
+        $from  = $fromarr[1].'/'.$fromarr[0].'/'.$fromarr[2];
+        $to = date("d/m/Y",strtotime($requests->to));
+        $toarr = explode("/", $to);
+        $to  = $toarr[1].'/'.$toarr[0].'/'.$toarr[2];
+        $all_check_ins = Passenger::all();
+        $data = [];
+        foreach($all_check_ins as $key=>$val){
+            if(strpos($val->publish_date,"@")){
+                $pubarr = explode("@", $val->publish_date);
+                $ymdarr = explode("/", trim($pubarr[0]));
+                $pubdate = $ymdarr[1].'/'.$ymdarr[0].'/'.$ymdarr[2];
+                // dd($val->publish_date, $pubdate, $from, strtotime($pubdate) >= strtotime($from), $to, strtotime($pubdate) <= strtotime($to));
+            }else{
+                $pubarr = explode(" ", $val->publish_date);
+                $ymdarr = explode("/", trim($pubarr[0]));
+                $pubdate = $ymdarr[1].'/'.$ymdarr[0].'/'.$ymdarr[2];
+            }
+            if(strtotime($pubdate) >= strtotime($from) && strtotime($pubdate) <= strtotime($to)){
+                array_push($data,$val);
+            }
+        } 
+        return response()->json(['data' => $data, 'draw' => 5, 'recordsTotal' => count($data), 'recordsFiltered' => 5]);
     }
     public function get_gbv(){
         $all_check_ins = \App\GbvList::orderBy('id', 'DESC')->get();

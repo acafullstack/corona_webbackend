@@ -9,5 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Passenger extends Authenticatable
 {
     protected $table ='tracing_passenger';
-
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 }

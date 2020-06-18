@@ -24,8 +24,8 @@
 
         <div class="container">
             <div class="content">
-                From <input type='date' id='startdate'> To
-                <input type='date' id='enddate'>
+                From <input type='date' id='startdate' value="{{date('yy-m-d')}}"> To
+                <input type='date' id='enddate' value="{{date('yy-m-d', strtotime('+1 day'))}}">
                 <div class="table-responsive">
 				<table class="table dataTable table-hover cust_table" id="table_1">
 					<thead class="back_blue">
@@ -48,25 +48,6 @@
                             </tr>
 					</thead>
 					<tbody>
-						@foreach($all_check_ins as $key => $log)
-						<tr>
-							<td><a href="{{ url('/admin/check_in_details/'. $log->id) }}">{{ $key + 1 }}</a></td>
-                            <td>{{ $log->passenger_name }}</td>
-                            <td>{{ $log->temp }}</td>
-                            <td>{{ $log->id_num }}</td>
-                            <td>{{ $log->tel_number }}</td>
-							<td>{{ $log->vehicle_num }}</td>
-							<td>{{ $log->seat_number }}</td>
-							<td>{{ $log->from_village }}</td>
-                            <td>{{ $log->to_village }}</td>
-                            <td>{{ $log->location }}</td>
-                            <td>{{ $log->history_last }}</td>
-                            <td>{{ $log->infect_str }}</td>
-                            <td>{{ $log->contact }}</td>
-                            <td>{{ $log->contact_num}}</td>
-                            <td>{{ date("d/m/Y H:i:s", strtotime($log->created_at)) }}</td>
-						</tr>
-						@endforeach
 					</tbody>
 				</table>
 			</div>
@@ -82,44 +63,125 @@
         // object not strictly equal to itself.
         return this.getTime() === this.getTime();
     };
-    $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
-            var startdate = new Date($('#startdate').val());
-            var enddate = new Date($('#enddate').val());
-            var pubdate = new Date(data[14]) || 0; // use data for the age column
+    // $.fn.dataTable.ext.search.push(
+    //     function( settings, data, dataIndex ) {
+    //         var startdate = new Date($('#startdate').val());
+    //         var enddate = new Date($('#enddate').val());
+    //         var pubdate = new Date(data[14]) || 0; // use data for the age column
             
-            console.log(startdate.isValid());
-            if (  (!startdate.isValid() &&  !enddate.isValid()) || (startdate < pubdate && !enddate.isValid()) || (startdate < pubdate && pubdate < enddate) || ( !startdate.isValid() && pubdate < enddate))
-            {
-                return true;
-            }
-            return false;
-        }
-    );
+    //         if (  (!startdate.isValid() &&  !enddate.isValid()) || (startdate <= pubdate && !enddate.isValid()) || (startdate < pubdate && pubdate <= enddate) || ( !startdate.isValid() && pubdate <= enddate))
+    //         {
+    //             return true;
+    //         }
+    //         return false;
+    //     }
+    // );
+    var cnt = 0;
+    function getInput(data, type, full, meta) {
+        cnt++;
+		return '<a href="{{ url("/admin/check_in_details/") }}/'+data+'">'+cnt+'</a>';
+	}
     $(document).ready(function() {
-        console.log(new Date().toDateInputValue());
-        $('#startdate').val(new Date().toDateInputValue());
-        $('#enddate').val(new Date().toDateInputValue());
+        // console.log(new Date().toDateInputValue());
+        // $('#startdate').val(new Date().toDateInputValue());
+        // $('#enddate').val(new Date().toDateInputValue());
         var table =  $('#table_1').DataTable({
-            dom: 'Bfrtip',
-            "pageLength": 15,
-            buttons: [
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5'
-            ]
-        });
-        $('#startdate, #enddate').change( function() {
+                dom: 'Bfrtip',
+                "processing": true,
+                "serverSide": true,
+                destroy: true,
+                ajax: function (data, callback, settings) {
+				$.ajax({
+                    url: "{{url('/admin/ajax_tracing_passenger')}}",
+                    type: 'GET',
+                    data:{
+                        from:$('#startdate').val(),
+                        to:$('#enddate').val()
+                    },
+                    dataType: 'json',
+                    success:function(data){
+                        callback(data);  
+                    }
+                    });
+                },
+                "columns": [
+                    { "data": "user_id", render: getInput },
+                    { "data": "passenger_name" },
+                    { "data": "temp" },
+                    { "data": "id_num" },
+                    { "data": "tel_number" },
+                    { "data": "vehicle_num" },
+                    { "data": "seat_num" },
+                    { "data": "from_village" },
+                    { "data": "to_village" },
+                    { "data": "location" },
+                    { "data": "history_last" },
+                    { "data": "infect_str" },
+                    { "data": "contact" },
+                    { "data": "contact_num" },
+                    { "data": "publish_date" },
+                ],
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
+            });
+        
+    });
+    $('#startdate, #enddate').change( function() {
+                cnt = 0;
+                table =  $('#table_1').DataTable({
+                dom: 'Bfrtip',
+                "processing": true,
+                "serverSide": true,
+                destroy: true,
+                ajax: function (data, callback, settings) {
+				$.ajax({
+                    url: "{{url('/admin/ajax_tracing_passenger')}}",
+                    type: 'GET',
+                    data:{
+                        from:$('#startdate').val(),
+                        to:$('#enddate').val()
+                    },
+                    dataType: 'json',
+                    success:function(data){
+                        callback(data);                
+                    }
+                    });
+                },
+                "columns": [
+                    { "data": "user_id", render: getInput },
+                    { "data": "passenger_name" },
+                    { "data": "temp" },
+                    { "data": "id_num" },
+                    { "data": "tel_number" },
+                    { "data": "vehicle_num" },
+                    { "data": "seat_num" },
+                    { "data": "from_village" },
+                    { "data": "to_village" },
+                    { "data": "location" },
+                    { "data": "history_last" },
+                    { "data": "infect_str" },
+                    { "data": "contact" },
+                    { "data": "contact_num" },
+                    { "data": "publish_date" },
+                ],
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
+            });
             
-            table.draw();
         } );
         $('#table_1 tr').click(function() {
-        var href = $(this).find("a").attr("href");
-        if(href) {
-            window.location = href;
-        }
-    });
-    });
+            var href = $(this).find("a").attr("href");
+            if(href) {
+                window.location = href;
+            }
+        });
 </script>
 @include('layouts.footer')
