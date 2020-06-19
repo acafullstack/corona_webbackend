@@ -88,7 +88,11 @@
 							@endif
 							<td>{{ $log->address }}</td>
 							<td>{{ date("d/m/Y H:i:s", strtotime($log->created_at)) }}</td>
-							<td>{{ $log->collect->collection_name }}</td>
+							@if($log->collection_id == null)
+							    <td></td>
+							@else
+							    <td>{{ $log->collect->collection_name }}</td>
+							@endif
 						</tr>
 						@endforeach
 					</tbody>
