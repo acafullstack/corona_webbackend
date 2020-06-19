@@ -24,7 +24,7 @@
 
         <div class="container">
             <div class="content">
-                <div style="float:right">
+                <div style="position: absolute; right: 300px; top: 115px;">
                     From <input type='date' id='startdate' value="{{date('yy-m-d')}}">
                      To <input type='date' id='enddate' value="{{date('yy-m-d', strtotime('+1 day'))}}">
                 </div>

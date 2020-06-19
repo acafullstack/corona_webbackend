@@ -882,6 +882,14 @@ div.dataTables_wrapper div.dataTables_filter input {
            </p>
            </a>
          </li>
+         <li class="nav-item">
+           <a href="{{ url('admin/all_report_logs')}}"  class="nav-link">
+           <i class="fa fa-users"></i>
+           <p>
+            Reports
+           </p>
+           </a>
+         </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link ">
               <i class="nav-icon fa fa-users"></i>
@@ -973,12 +981,12 @@ div.dataTables_wrapper div.dataTables_filter input {
               </p>
             </a>
             <ul class="nav nav-treeview" style="display: none;">
-              <li class="nav-item" style="    padding-left: 30px !important;">
+              <!-- <li class="nav-item" style="    padding-left: 30px !important;">
                 <a href="{{ url('admin/all_report_logs')}}" class="nav-link {{ Request::segment(2) == 'all_report_logs'? 'active':'' }}">
                   <i class="fa fa-ban nav-icon"></i>
                   <p>All Reports</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item" style="    padding-left: 30px !important;">
                 <a href="{{ url('admin/self_report_logs')}}" class="nav-link {{ Request::segment(2) == 'self_report_logs'? 'active':'' }}">
                   <i class="fa fa-ban nav-icon"></i>
