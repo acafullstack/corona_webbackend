@@ -193,7 +193,11 @@ class MainController extends Controller
                 $ymdarr = explode("/", trim($pubarr[0]));
                 $pubdate = $ymdarr[1].'/'.$ymdarr[0].'/'.$ymdarr[2];
             }
-            $collection = array('collection'=>$val->collection->collection_name);
+            if($val->collection_id != null){
+                $collection = array('collection'=>$val->collection->collection_name);
+            }else{
+                $collection = array('collection'=>null);
+            }
             $psgn = $val->toArray();
             $psgn = array_replace($psgn,$collection);
             $valstr = implode(" ",$psgn);
