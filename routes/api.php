@@ -29,6 +29,14 @@ Route::get('information_center', 'API\UserController@information_center');
 Route::get('information_center_detail', 'API\UserController@information_center_detail');
 Route::get('enforce_list', 'API\UserController@enforce_list');
 Route::post('report', 'API\ReportController@report');
+
+
+
+Route::post('collection', 'API\ReportController@collection');
+
+
+
+
 Route::post('enforce', 'API\ReportController@enforce_report');
 Route::post('check_in', 'API\ReportController@check_in');
 Route::post('tracing_submit', 'API\ReportController@tracing_add');
