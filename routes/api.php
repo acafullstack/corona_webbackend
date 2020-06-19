@@ -32,7 +32,7 @@ Route::post('report', 'API\ReportController@report');
 
 
 
-Route::post('collection', 'API\ReportController@collection');
+Route::get('collection', 'API\ReportController@collection');
 
 
 
