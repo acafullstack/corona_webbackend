@@ -1,7 +1,7 @@
 @include('layouts.header')
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
         <script type="text/javascript" src="//cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"/></script>
+        <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"/></script> -->
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"/></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"/></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"/></script>
@@ -24,8 +24,11 @@
 
         <div class="container">
             <div class="content">
-                From <input type='date' id='startdate' value="{{date('yy-m-d')}}"> To
-                <input type='date' id='enddate' value="{{date('yy-m-d', strtotime('+1 day'))}}">
+                <div style="float:right">
+                    From <input type='date' id='startdate' value="{{date('yy-m-d')}}">
+                     To <input type='date' id='enddate' value="{{date('yy-m-d', strtotime('+1 day'))}}">
+                </div>
+                
                 <div class="table-responsive">
 				<table class="table dataTable table-hover cust_table" id="table_1">
 					<thead class="back_blue">
@@ -76,112 +79,105 @@
     //         return false;
     //     }
     // );
-    var cnt = 0;
     function getInput(data, type, full, meta) {
-        cnt++;
-		return '<a href="{{ url("/admin/check_in_details/") }}/'+data+'">'+cnt+'</a>';
-	}
+		return '<a href="{{ url("/admin/check_in_details/") }}/'+data+'">'+ (parseInt(meta.row + meta.settings._iDisplayStart) + 1) +'</a>';
+    }
+    var handleRecords = function () {
+        var table =  $('#table_1').DataTable({
+                "language": {
+                    "aria": {
+                        "sortAscending": ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    },
+                    "emptyTable": "No data available in table",
+                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "infoEmpty": "No entries found",
+                    "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                    "lengthMenu": "Show _MENU_ entries",
+                    "search": "Search:",
+                    "zeroRecords": "No matching records found"
+                },
+                destroy: true,
+                "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                "ajax": "{{url('/admin/ajax_tracing_passenger')}}?from="+$('#startdate').val()+"&to="+$('#enddate').val(),
+                // ajax: function (data, callback, settings) {
+				// $.ajax({
+                //     url: "{{url('/admin/ajax_tracing_passenger')}}",
+                //     type: 'GET',
+                //     data:{
+                //         from:$('#startdate').val(),
+                //         to:$('#enddate').val(),
+                //         search:$('#table_1_filter input').val()
+                //     },
+                //     dataType: 'json',
+                //     success:function(data){
+                //         callback(data);  
+                //     }
+                //     });
+                // },
+                "columns": [
+                    { "data": "user_id", render: getInput },
+                    { "data": "passenger_name" },
+                    { "data": "temp" },
+                    { "data": "id_num" },
+                    { "data": "tel_number" },
+                    { "data": "vehicle_num" },
+                    { "data": "seat_num" },
+                    { "data": "from_village" },
+                    { "data": "to_village" },
+                    { "data": "location" },
+                    { "data": "history_last" },
+                    { "data": "infect_str" },
+                    { "data": "contact" },
+                    { "data": "contact_num" },
+                    { "data": "publish_date" },
+                ],
+                "lengthMenu": [
+                    [5, 15, 20, -1],
+                    [5, 15, 20, "All"] // change per page values here
+                ],
+                // set the initial value
+                "pageLength": 5,
+                "language": {
+                    "lengthMenu": " _MENU_ records"
+                },
+                "columnDefs": [{  // set default column settings
+                    'orderable': false,
+                    'targets': [-1]
+                }, {
+                    "searchable": false,
+                    "targets": [0]
+                }],
+                "order": [
+                    [0, "asc"]
+                ], // set first column as a default sort by asc
+                dom: 'lBfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
+            });
+    }
     $(document).ready(function() {
         // console.log(new Date().toDateInputValue());
         // $('#startdate').val(new Date().toDateInputValue());
-        // $('#enddate').val(new Date().toDateInputValue());
-        var table =  $('#table_1').DataTable({
-                dom: 'Bfrtip',
-                "processing": true,
-                "serverSide": true,
-                destroy: true,
-                ajax: function (data, callback, settings) {
-				$.ajax({
-                    url: "{{url('/admin/ajax_tracing_passenger')}}",
-                    type: 'GET',
-                    data:{
-                        from:$('#startdate').val(),
-                        to:$('#enddate').val()
-                    },
-                    dataType: 'json',
-                    success:function(data){
-                        callback(data);  
-                    }
-                    });
-                },
-                "columns": [
-                    { "data": "user_id", render: getInput },
-                    { "data": "passenger_name" },
-                    { "data": "temp" },
-                    { "data": "id_num" },
-                    { "data": "tel_number" },
-                    { "data": "vehicle_num" },
-                    { "data": "seat_num" },
-                    { "data": "from_village" },
-                    { "data": "to_village" },
-                    { "data": "location" },
-                    { "data": "history_last" },
-                    { "data": "infect_str" },
-                    { "data": "contact" },
-                    { "data": "contact_num" },
-                    { "data": "publish_date" },
-                ],
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5'
-                ]
-            });
-        
+        // $('#enddate').val(new Date().toDateInputValue());        
+        handleRecords();
     });
-    $('#startdate, #enddate').change( function() {
-                cnt = 0;
-                table =  $('#table_1').DataTable({
-                dom: 'Bfrtip',
-                "processing": true,
-                "serverSide": true,
-                destroy: true,
-                ajax: function (data, callback, settings) {
-				$.ajax({
-                    url: "{{url('/admin/ajax_tracing_passenger')}}",
-                    type: 'GET',
-                    data:{
-                        from:$('#startdate').val(),
-                        to:$('#enddate').val()
-                    },
-                    dataType: 'json',
-                    success:function(data){
-                        callback(data);                
-                    }
-                    });
-                },
-                "columns": [
-                    { "data": "user_id", render: getInput },
-                    { "data": "passenger_name" },
-                    { "data": "temp" },
-                    { "data": "id_num" },
-                    { "data": "tel_number" },
-                    { "data": "vehicle_num" },
-                    { "data": "seat_num" },
-                    { "data": "from_village" },
-                    { "data": "to_village" },
-                    { "data": "location" },
-                    { "data": "history_last" },
-                    { "data": "infect_str" },
-                    { "data": "contact" },
-                    { "data": "contact_num" },
-                    { "data": "publish_date" },
-                ],
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5'
-                ]
-            });
-            
-        } );
-        $('#table_1 tr').click(function() {
-            var href = $(this).find("a").attr("href");
-            if(href) {
-                window.location = href;
-            }
-        });
+    $('#startdate, #enddate').change( function() {                
+        handleRecords();            
+    } );
+    // $(document).on('change','#table_1_filter input', function(e) { 
+    //     e.preventDefault();
+    //     handleRecords();            
+    // } );
+    $('#table_1 tr').click(function() {
+        var href = $(this).find("a").attr("href");
+        if(href) {
+            window.location = href;
+        }
+    });
 </script>
 @include('layouts.footer')

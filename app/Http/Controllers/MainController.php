@@ -180,6 +180,7 @@ class MainController extends Controller
         $toarr = explode("/", $to);
         $to  = $toarr[1].'/'.$toarr[0].'/'.$toarr[2];
         $all_check_ins = Passenger::all();
+        // $data = $all_check_ins->toArray();
         $data = [];
         foreach($all_check_ins as $key=>$val){
             if(strpos($val->publish_date,"@")){
@@ -192,11 +193,20 @@ class MainController extends Controller
                 $ymdarr = explode("/", trim($pubarr[0]));
                 $pubdate = $ymdarr[1].'/'.$ymdarr[0].'/'.$ymdarr[2];
             }
-            if(strtotime($pubdate) >= strtotime($from) && strtotime($pubdate) <= strtotime($to)){
-                array_push($data,$val);
+            $valstr = implode(" ",$val->toArray());
+            if($requests->search['value'] != null){
+                // dd($valstr,$requests->search,stripos($valstr,$requests->search));
+                if(strtotime($pubdate) >= strtotime($from) && strtotime($pubdate) <= strtotime($to) && stripos($valstr,$requests->search['value'])){
+                    array_push($data,$val);
+                }
+            }else{
+                if(strtotime($pubdate) >= strtotime($from) && strtotime($pubdate) <= strtotime($to)){
+                    array_push($data,$val);
+                }
             }
         } 
-        return response()->json(['data' => $data, 'draw' => 5, 'recordsTotal' => count($data), 'recordsFiltered' => 5]);
+        // dd(count($data));
+        return response()->json(['data' => $data, 'draw' => 3, 'recordsTotal' => count($data), 'recordsFiltered' => count($data)]);
     }
     public function get_gbv(){
         $all_check_ins = \App\GbvList::orderBy('id', 'DESC')->get();

@@ -23,8 +23,9 @@ setcookie('value', 1, time() + (86400 * 30), "/"); // 86400 = 1 day
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
  
-  <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <!-- <script src="{{ asset('plugins/jQueryUI/jquery-ui.min.js') }}" type="text/javascript"></script> -->
   <script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
   <!-- <link href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/> -->
   <link rel="stylesheet" href="{{ asset('css/_sidebar.scss') }}">
@@ -32,7 +33,6 @@ setcookie('value', 1, time() + (86400 * 30), "/"); // 86400 = 1 day
   <!-- Morris chart -->
   <link rel="stylesheet" href="{{ asset('plugins/morris/morris.css') }}">
   <!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="{{ asset('plugins/morris/morris.min.js') }}"></script>
   <!-- jvectormap -->
   <link rel="stylesheet" href="{{ asset('plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}">
