@@ -13,4 +13,8 @@ class Passenger extends Authenticatable
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+    public function collection()
+    {
+        return $this->belongsTo('App\Collect', 'collection_id');
+    }
 }

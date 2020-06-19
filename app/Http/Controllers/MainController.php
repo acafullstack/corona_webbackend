@@ -193,19 +193,21 @@ class MainController extends Controller
                 $ymdarr = explode("/", trim($pubarr[0]));
                 $pubdate = $ymdarr[1].'/'.$ymdarr[0].'/'.$ymdarr[2];
             }
-            $valstr = implode(" ",$val->toArray());
+            $collection = array('collection'=>$val->collection->collection_name);
+            $psgn = $val->toArray();
+            $psgn = array_replace($psgn,$collection);
+            $valstr = implode(" ",$psgn);
             if($requests->search['value'] != null){
-                // dd($valstr,$requests->search,stripos($valstr,$requests->search));
                 if(strtotime($pubdate) >= strtotime($from) && strtotime($pubdate) <= strtotime($to) && stripos($valstr,$requests->search['value'])){
-                    array_push($data,$val);
+                    array_push($data,$psgn);
                 }
             }else{
                 if(strtotime($pubdate) >= strtotime($from) && strtotime($pubdate) <= strtotime($to)){
-                    array_push($data,$val);
+                    array_push($data,$psgn);
                 }
             }
         } 
-        // dd(count($data));
+        // dd($data);
         return response()->json(['data' => $data, 'draw' => 3, 'recordsTotal' => count($data), 'recordsFiltered' => count($data)]);
     }
     public function get_gbv(){

@@ -48,6 +48,7 @@
                             <th>Next of Kin Names</th>
                             <th>Next of Kin Phone number</th>
                             <th>Publish Date</th>
+                            <th>Collection Name</th>
                             </tr>
 					</thead>
 					<tbody>
@@ -131,6 +132,7 @@
                     { "data": "contact" },
                     { "data": "contact_num" },
                     { "data": "publish_date" },
+                    { "data": "collection" },
                 ],
                 "lengthMenu": [
                     [5, 15, 20, -1],

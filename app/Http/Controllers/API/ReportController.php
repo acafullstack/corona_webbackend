@@ -112,6 +112,7 @@ class ReportController extends Controller
             'additional_info'=>$request->additional_info,
             'lat'=>$request->latitude,
             'lng'=>$request->longitude,
+            'collection_id'=>$request->collection_id,
             );
         }else{
              $data = array(
@@ -127,6 +128,7 @@ class ReportController extends Controller
             'additional_info'=>$request->additional_info,
             'lat'=>$request->latitude,
             'lng'=>$request->longitude,
+            'collection_id'=>$request->collection_id,
             );
         }
 
@@ -419,6 +421,7 @@ class ReportController extends Controller
             'contact_num'=>$request->contact_num,
             'infect_str'=>$request->infect_str,
             'history_last'=>$request->history_last,
+            'collection_id'=>$request->collection_id,
         );
 
         $success = DB::table('tracing_passenger')->insert($data);
