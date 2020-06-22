@@ -112,7 +112,7 @@ class MainController extends Controller
 
     public function resetpwd(Request $requests){
         $users = User::find($requests->userid);
-        $users->password = Hash::make($requests->resetpwd);
+        $users->password = md5($requests->resetpwd);
         $users->save();
         return redirect('admin/users?success=success');
     }

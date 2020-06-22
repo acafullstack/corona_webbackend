@@ -236,11 +236,13 @@ class ReportController extends Controller
             return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
         }
     }
+    
     public function collection(Request $request)
     {
         $data = Collect::all();
         return response()->json(['status'=>'success', 'data'=>$data]);
     }
+
     public function enforce_report(Request $request){
 
         if($request->hasfile('image_video')){

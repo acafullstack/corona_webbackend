@@ -8957,7 +8957,7 @@ html {
     color: #555;
     border-top: 1px solid #dee2e6;
     background: #fff;
-    bottom: 0;
+    bottom: -60px;
     position: absolute;
     width: 100%;;
 }
