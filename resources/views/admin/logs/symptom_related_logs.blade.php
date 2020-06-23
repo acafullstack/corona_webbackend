@@ -38,7 +38,6 @@
 					<thead class="back_blue">
 						<tr>
 							<th>#</th>
-							<th>Name</th>
 							<th>Media</th>
 							<th>Report Type</th>
 							<th>Reportee Name</th>
@@ -52,7 +51,6 @@
 						@foreach($all_report_logs as $key => $log)
 						<tr>
 							<td><a href="{{ url('/admin/report_details/'. $log->id) }}">{{ $key + 1 }}</a></td>
-							<td>{{ strtoupper(\App\User::where('id', $log->user_id)->first()->first_name) }} {{ strtoupper(\App\User::where('id', $log->user_id)->first()->last_name) }}</td>
 							@if($log->video_or_image == NULL)
 							<td><img src="{{ url('/report_image') }}/not_found.jpg" height="42" width="42"></td>
 							@else

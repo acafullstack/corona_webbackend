@@ -229,33 +229,33 @@ class UserController extends Controller
 
     public function enforce_list()
     {
-        $enforce_list = DB::table('enforce')->get();
+        $enforce_list = DB::table('enforce')->orderBy('id', 'desc')->get();
         return response()->json(['status'=>'success','enforce_list'=>$enforce_list]);
     }
     public function tracing_list()
     {
-        $tracing_list = DB::table('tracing')->get();
+        $tracing_list = DB::table('tracing')->orderBy('id', 'desc')->get();
         return response()->json(['status'=>'success','tracing_list'=>$tracing_list]);
     }
     public function tracing_passenger_list()
     {
-        $tracing_list = DB::table('tracing_passenger')->get();
+        $tracing_list = DB::table('tracing_passenger')->orderBy('id', 'desc')->get();
         return response()->json(['status'=>'success','tracing_passenger'=>$tracing_list]);
     }
     public function gbv_list()
     {
-        $gbv_list = DB::table('gbv_list')->get();
+        $gbv_list = DB::table('gbv_list')->orderBy('id', 'desc')->get();
         return response()->json(['status'=>'success','gbv_list'=>$gbv_list]);
     }
 
     public function chv_list()
     {
-        $chv_list = DB::table('chv_list')->get();
+        $chv_list = DB::table('chv_list')->orderBy('id', 'desc')->get();
         return response()->json(['status'=>'success','chv_list'=>$chv_list]);
     }
     public function chv_mother_list()
     {
-        $chv_mother_list = DB::table('chv_mother_list')->get();
+        $chv_mother_list = DB::table('chv_mother_list')->orderBy('id', 'desc')->get();
         return response()->json(['status'=>'success','chv_mother_list'=>$chv_mother_list]);
     }
     public function information_center_detail(Request $request)
