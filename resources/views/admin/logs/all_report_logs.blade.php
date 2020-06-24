@@ -76,11 +76,15 @@
 							@else
 							    <td>{{ strtoupper($log->first_name) }} {{ strtoupper($log->second_name) }}</td>
 							@endif
+							@if($log->symptom != null)
 							<td style="    padding-top: 23px;padding-bottom: 18px;display: flex;flex-wrap: wrap;">
 							    @foreach(explode(",", $log->symptom) as $symptom_id)
 							        <span style="margin-left: 8px;  margin-bottom: 4px;border: 1px solid;padding: 1px 4px;background: #fff;border-radius: 3px; color:#ff1a1a">{{ \App\Symptoms::where('id', $symptom_id)->first()->symptom }}</span>
 							    @endforeach
 							</td>
+							@else
+							    <td></td>
+							@endif
 							@if($log->additional_info == null)
 							    <td>N/A</td>
 							@else
