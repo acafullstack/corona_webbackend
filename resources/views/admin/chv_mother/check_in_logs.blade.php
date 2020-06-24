@@ -49,7 +49,7 @@
 					<tbody>
 						@foreach($all_check_ins as $key => $log)
 						<tr>
-							<td><a href="{{ url('/admin/check_in_details/'. $log->id) }}">{{ $key + 1 }}</a></td>
+                            <td>{{ $key + 1 }}</td>
                             <td>{{ $log->title }}</td>
                             <td>{{ $log->name }}</td>
                             <td>{{ $log->age }}</td>

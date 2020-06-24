@@ -243,6 +243,260 @@ class ReportController extends Controller
         return response()->json(['status'=>'success', 'data'=>$data]);
     }
 
+    public function reportalldata(Request $request){
+        file_put_contents("all.txt",print_r($request->report_data,1));
+        $array = json_decode($request->report_data,true);
+        for($i=0; $i<sizeof($array) ; $i++){
+            $data = array(
+                'first_name'=>"",
+                'second_name'=>"",
+                'user_id'=>$array[$i]['user_id'],
+                'report_type'=>$array[$i]['report_type'],
+                'city'=>$array[$i]['city'],
+                'country'=>$array[$i]['country'],
+                'state'=>$array[$i]['state'],
+                'address'=>$array[$i]['address'],
+                'symptom'=>$array[$i]['symptom'],
+                'additional_info'=>$array[$i]['additional_info'],
+                'lat'=>$array[$i]['latitude'],
+                'lng'=>$array[$i]['longitude'],
+            );
+            $success = DB::table('report')->insert($data);
+            if(!$success)
+            {
+                file_put_contents("all2.txt",print_r($array[$i]['user_id'],1));
+                return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
+            }
+            if($i== sizeof($array)-1){
+                file_put_contents("all3.txt",print_r($array[$i]['user_id'],1));
+                return response()->json(['status'=>'success', 'msg'=>'All report data Added successfully']);
+            }
+        }
+
+
+    }
+    public function checkalldata(Request $request){
+        file_put_contents("all.txt",print_r($request->report_data,1));
+        $array = json_decode($request->report_data,true);
+        for($i=0; $i<sizeof($array) ; $i++){
+            $data = array(
+                'user_id'=>$array[$i]['user_id'],
+                'people'=>$array[$i]['peaple'],
+                'time'=>$array[$i]['time'],
+                'utilities'=>$array[$i]['utilities'],
+                'additional_info'=>$array[$i]['additional_info'],
+                'lat'=>$array[$i]['latitude'],
+                'lng'=>$array[$i]['longitude'],
+                'city'=>$array[$i]['city'],
+                'country'=>$array[$i]['country'],
+                'address'=>$array[$i]['address'],
+                'state'=>$array[$i]['state'],
+
+            );
+            $success = DB::table('check_in')->insert($data);
+            if(!$success)
+            {
+                file_put_contents("all2.txt",print_r($array[$i]['user_id'],1));
+                return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
+            }
+            if($i== sizeof($array)-1){
+                file_put_contents("all3.txt",print_r($array[$i]['user_id'],1));
+                return response()->json(['status'=>'success', 'msg'=>'All CheckIn data Added successfully']);
+            }
+        }
+
+
+    }
+    public function enforcealldata(Request $request){
+    $array = json_decode($request->report_data,true);
+    for($i=0; $i<sizeof($array) ; $i++){
+        $data = array(
+            'user_id'=>$array[$i]['user_id'],
+            'enforce_type'=>$array[$i]['enforce_type'],
+            'title'=>$array[$i]['title'],
+            'description'=>$array[$i]['description'],
+
+        );
+        $success = DB::table('enforce')->insert($data);
+        if(!$success)
+        {
+            return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
+        }
+        if($i== sizeof($array)-1){
+            return response()->json(['status'=>'success', 'msg'=>'All Enforce data Added successfully']);
+        }
+    }
+
+
+}
+
+
+    public function visitalldata(Request $request){
+        $array = json_decode($request->report_data,true);
+        for($i=0; $i<sizeof($array) ; $i++){
+            $data = array(
+                'user_id'=>$array[$i]['user_id'],
+                'name'=>$array[$i]['name'],
+                'title' => $array[$i]['title'],
+                'age'=>$array[$i]['age'],
+                'id_num'=>$array[$i]['id_num'],
+                'nhif'=>$array[$i]['nhif'],
+                'village'=>$array[$i]['village'],
+                'nearname' => $array[$i]['nearname'],
+                'mask'=>$array[$i]['mask'],
+                'provide'=>$array[$i]['provide'],
+                'mal'=>$array[$i]['mal'],
+                'diabet'=>$array[$i]['diabet'],
+                'hyper'=>$array[$i]['hyper'],
+                'tb'=>$array[$i]['tb'],
+                'ward' => $array[$i]['ward'],
+                'indicate'=>$array[$i]['indicate'],
+                'remark'=>$array[$i]['remark'],
+
+            );
+            $success = DB::table('chv_list')->insert($data);
+            if(!$success)
+            {
+                return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
+            }
+            if($i== sizeof($array)-1){
+                return response()->json(['status'=>'success', 'msg'=>'All Household data Added successfully']);
+            }
+        }
+
+
+    }
+    public function motheralldata(Request $request){
+        $array = json_decode($request->report_data,true);
+        for($i=0; $i<sizeof($array) ; $i++){
+            $data = array(
+                'user_id'=>$array[$i]['user_id'],
+                'name'=>$array[$i]['name'],
+                'title' => $array[$i]['title'],
+                'age'=>$array[$i]['age'],
+                'mother_id'=>$array[$i]['mother_id'],
+                'nhif'=>$array[$i]['nhif'],
+                'tel_num'=>$array[$i]['tel_num'],
+                'clinic' => $array[$i]['clinic'],
+                'due_date'=>$array[$i]['due_date'],
+                'folic'=>$array[$i]['folic'],
+                'mary'=>$array[$i]['mary'],
+                'village'=>$array[$i]['village'],
+                'ward'=>$array[$i]['ward'],
+                'children'=>$array[$i]['children'],
+                'remark'=>$array[$i]['remark'],
+
+            );
+            $success = DB::table('chv_mother_list')->insert($data);
+            if(!$success)
+            {
+                return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
+            }
+            if($i== sizeof($array)-1){
+                return response()->json(['status'=>'success', 'msg'=>'All Mothers data Added successfully']);
+            }
+        }
+
+
+    }
+    public function gbvalldata(Request $request){
+        $array = json_decode($request->report_data,true);
+        for($i=0; $i<sizeof($array) ; $i++){
+            $data = array(
+                'user_id'=>$array[$i]['user_id'],
+                'title' => $array[$i]['title'],
+                'county'=>$array[$i]['county'],
+                'nature'=>$array[$i]['nature'],
+                'gender'=>$array[$i]['gender'],
+                'age'=>$array[$i]['age'],
+                'report_date'=>$array[$i]['report_date'],
+                'report_place' => $array[$i]['report_place'],
+                'status'=>$array[$i]['status'],
+                'remark'=>$array[$i]['remark'],
+
+            );
+            $success = DB::table('gbv_list')->insert($data);
+            if(!$success)
+            {
+                return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
+            }
+            if($i== sizeof($array)-1){
+                return response()->json(['status'=>'success', 'msg'=>'All Gbv data Added successfully']);
+            }
+        }
+
+
+    }
+    public function officealldata(Request $request){
+        $array = json_decode($request->report_data,true);
+        for($i=0; $i<sizeof($array) ; $i++){
+            $data = array(
+                'user_id'=> $array[$i]['user_id'],
+                'passenger_name'=> $array[$i]['name'],
+                'unique_card_number'=> $array[$i]['card_num'],
+                'service_type'=> $array[$i]['service_type'],
+                'tel_number'=> $array[$i]['tel_num'],
+                'vehicle_number'=> $array[$i]['reg_num'],
+                'destination'=> $array[$i]['destination'],
+                'tracing_title'=> $array[$i]['title'],
+                'publish_date'=> $array[$i]['date'],
+                'home_address'=> $array[$i]['home_address'],
+
+            );
+            $success = DB::table('tracing')->insert($data);
+            if(!$success)
+            {
+                return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
+            }
+            if($i== sizeof($array)-1){
+                return response()->json(['status'=>'success', 'msg'=>'All Officers data Added successfully']);
+            }
+        }
+
+
+    }
+    public function passengeralldata(Request $request){
+        $array = json_decode($request->report_data,true);
+        for($i=0; $i<sizeof($array) ; $i++){
+            $data = array(
+                'user_id'=>$array[$i]['user_id'],
+                'id_num' => $array[$i]['id_num'],
+                'passenger_name'=>$array[$i]['name'],
+                'temp'=>$array[$i]['temp'],
+                'tel_number'=>$array[$i]['phone_num'],
+                'vehicle_num'=>$array[$i]['vehicle_num'],
+                'seat_num'=>$array[$i]['seat_num'],
+                'from_village'=>$array[$i]['from_village'],
+                'to_village'=>$array[$i]['to_village'],
+                'location'=>$array[$i]['location'],
+                'publish_date'=>$array[$i]['date'],
+                'contact'=>$array[$i]['contact'],
+                'contact_num'=>$array[$i]['contact_num'],
+                'infect_str'=>$array[$i]['infect_str'],
+                'history_last'=>$array[$i]['history_last'],
+
+            );
+            $success = DB::table('tracing_passenger')->insert($data);
+            if(!$success)
+            {
+                return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
+            }
+            if($i== sizeof($array)-1){
+                return response()->json(['status'=>'success', 'msg'=>'All Passengers data Added successfully']);
+            }
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
     public function enforce_report(Request $request){
 
         if($request->hasfile('image_video')){
@@ -381,6 +635,9 @@ class ReportController extends Controller
 
         if($success)
         {
+
+
+
             return response()->json(['status'=>'success', 'msg'=>'Tracing Sent Successfully']);
         }else{
             return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
@@ -391,31 +648,10 @@ class ReportController extends Controller
 
     public function tracing_passenger_add(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'name' => 'required',
-            'id_num' => 'required',
-            'temp' => 'required',
-            'title' => 'required',
-            'phone_num' => 'required',
-            'vehicle_num' => 'required',
-            'seat_num' => 'required',
-            'from_village' => 'required',
-            'date' => 'required',
-            'location' => 'required',
-            'contact' => 'required',
-            'contact_num' => 'required',
-            'to_village' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
-        }
-
         $data = array(
             'user_id'=>$request->user_id,
             'id_num' => $request->id_num,
             'passenger_name'=>$request->name,
-            'tracing_title'=>$request->title,
             'temp'=>$request->temp,
             'tel_number'=>$request->phone_num,
             'vehicle_num'=>$request->vehicle_num,
@@ -433,8 +669,65 @@ class ReportController extends Controller
 
         $success = DB::table('tracing_passenger')->insert($data);
 
+
         if($success)
         {
+            $temp_value = (float) $request->temp;
+            if($temp_value>=37.8){
+                $user_email = 'covid19.laikipia@laikipia.go.ke';
+                $email_temp = "Potential covid-19 alert from  ".$request->name." tel: ".$request->phone_num." temp ".$request->temp;
+                $email_data = array( 'situation' => $email_temp,'email' => $user_email );
+
+
+                Mail::send(['html'=>'admin/report_email'], $email_data, function($message) use($user_email) {
+                    $message->to($user_email, 'COVID-19 Tracker')->subject('RE: Potential Covid-19 Alert!!');
+                    $message->from('covid19.laikipia@laikipia.go.ke','COVID-19 Tracker');
+                });
+
+
+                $api_key = "K3245daMd05Lnd7b8di25T764xa5c85y520a2a36Bn36Re60PU7sXB0i5oG8n6ua";
+
+                $shortcode = "LAIKIPIAGOV";
+                $serviceId = '0';
+                $mobile = "254706031031";
+
+                $smsdata = array(
+                    "api_key" => $api_key,
+                    "shortcode" => $shortcode,
+                    "mobile" => $mobile,
+                    "message" => $email_temp,
+                    "serviceId" => $serviceId,
+                    "response_type" => "json",
+                );
+
+                $smsdata_string = json_encode($smsdata);
+                //echo $smsdata_string . "\n";
+
+                $smsURL = "http://sms.313-labs.com:7211/sms/v3/sendsms";
+
+//POST
+                $ch = curl_init($smsURL);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $smsdata_string);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                        'Content-Type: application/json',
+                        'Content-Length: ' . strlen($smsdata_string))
+                );
+
+                $apiresult = curl_exec($ch);
+                file_put_contents("sms.txt",print_r($apiresult,1));
+                if (!$apiresult) {
+                    die("ERROR on URL | error[" . curl_error($ch) . "] | error code[" . curl_errno($ch) . "]\n");
+                }
+
+                curl_close($ch);
+            }
+
             return response()->json(['status'=>'success', 'msg'=>'Tracing Sent Successfully']);
         }else{
             return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);
@@ -478,6 +771,7 @@ class ReportController extends Controller
 
         if($success)
         {
+
             return response()->json(['status'=>'success', 'msg'=>'Tracing Sent Successfully']);
         }else{
             return response()->json(['status'=>'failed', 'msg'=>'There is something Wrong']);

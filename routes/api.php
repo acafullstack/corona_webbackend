@@ -29,13 +29,16 @@ Route::get('information_center', 'API\UserController@information_center');
 Route::get('information_center_detail', 'API\UserController@information_center_detail');
 Route::get('enforce_list', 'API\UserController@enforce_list');
 Route::post('report', 'API\ReportController@report');
-
-
-
 Route::get('collection', 'API\ReportController@collection');
+Route::post('report_all_submit', 'API\ReportController@reportalldata');
+Route::post('check_in_all_submit', 'API\ReportController@checkalldata');
+Route::post('enforce_all_submit', 'API\ReportController@enforcealldata');
 
-
-
+Route::post('visit_all_submit', 'API\ReportController@visitalldata');
+Route::post('mother_all_submit', 'API\ReportController@motheralldata');
+Route::post('gbv_all_submit', 'API\ReportController@gbvalldata');
+Route::post('office_all_submit', 'API\ReportController@officealldata');
+Route::post('passenger_all_submit', 'API\ReportController@passengeralldata');
 
 Route::post('enforce', 'API\ReportController@enforce_report');
 Route::post('check_in', 'API\ReportController@check_in');
