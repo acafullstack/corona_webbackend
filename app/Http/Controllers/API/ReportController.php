@@ -260,6 +260,7 @@ class ReportController extends Controller
                 'additional_info'=>$array[$i]['additional_info'],
                 'lat'=>$array[$i]['latitude'],
                 'lng'=>$array[$i]['longitude'],
+                'collection_id'=>$array[$i]['collection_id'],
             );
             $success = DB::table('report')->insert($data);
             if(!$success)
@@ -474,7 +475,7 @@ class ReportController extends Controller
                 'contact_num'=>$array[$i]['contact_num'],
                 'infect_str'=>$array[$i]['infect_str'],
                 'history_last'=>$array[$i]['history_last'],
-
+                'collection_id'=>$array[$i]['collection_id'],
             );
             $success = DB::table('tracing_passenger')->insert($data);
             if(!$success)
