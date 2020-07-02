@@ -84,6 +84,7 @@
                             <td>{{ strtoupper($row->state) }}</td>
                             <td>
                             <select name="collection" class="collection" {{ $row->border_level != 1 ? 'disabled' : '' }}>
+                            <option data-id="{{$row->id}}" value="0">None</option>
                             @foreach($collects as $key => $collect)
                                 <option data-id="{{$row->id}}" value="{{$collect->id}}" {{$collect->id == $row->collection_id ? 'selected' : ''}}>{{$collect->collection_name}}</option>
                             @endforeach
