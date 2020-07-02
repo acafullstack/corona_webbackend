@@ -99,8 +99,9 @@ class MainController extends Controller
     
     public function all_users(Request $requests){
         $users = User::get()->all();
+        $collects = Collect::get()->all();
         $success = $requests->success == 'success' ? $requests->success :'failed';
-        return view('admin.users.home', compact('users', 'success'));
+        return view('admin.users.home', compact('users', 'collects', 'success'));
     }
     
     public function collect(Request $requests){
@@ -383,6 +384,19 @@ class MainController extends Controller
         }
 
     }
+
+    public function collection(Request $request){
+        // dd($request->all());
+        $userdetail = User::where('id', '=', $request->user_id)->first();
+        $userdetail->collection_id=$request->collection_id;
+        if($userdetail->save()){
+            return response()->json(['success'=>'User collection is setted.']);
+        }else{
+            return response()->json(['fail'=>'sql error']);
+        }
+
+    }
+
     public function unset_level3(Request $request){
         $userdetail = User::where('id', '=', $request->user_id)->first();
         $userdetail->border_level=0;

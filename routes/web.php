@@ -37,6 +37,11 @@ Route::group(['middleware' => 'authenticated'], function () {
     Route::post('admin/users/setlevel2', 'MainController@set_level2');
     Route::post('admin/users/unsetlevel2', 'MainController@unset_level2');
     Route::post('admin/users/setlevel3', 'MainController@set_level3');
+
+
+    Route::post('admin/users/collection', 'MainController@collection');
+
+
     Route::post('admin/users/unsetlevel3', 'MainController@unset_level3');
     Route::post('admin/users/setlevel4', 'MainController@set_level4');
     Route::post('admin/users/unsetlevel4', 'MainController@unset_level4');

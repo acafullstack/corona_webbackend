@@ -53,6 +53,7 @@
                         <td align="center" colspan="5" width="400" scope="colgroup" style="vertical-align:middle;">Edit Level</td>
                         <td align="center" rowspan="2" style="vertical-align:middle;width:200px;">Created At</td>
                         <td align="center" rowspan="2" style="vertical-align:middle;width:200px;">Location</td>
+                        <td align="center" rowspan="2" style="vertical-align:middle;width:200px;">Collection</td>
                         <td align="center" rowspan="2" style="vertical-align:middle;width:200px;">Reset Password</td>
                     </tr>
                     <tr>
@@ -81,6 +82,13 @@
                             <td style="vertical-align:middle;" align="center"><input {{ $row->chv_level == 1 ? 'checked' : '' }} type="checkbox" class="levelaccepted5"  value={{$row->id}}></td>
                             <td  style="vertical-align:middle;" align="center">{{ $row->created_at }}</td>
                             <td>{{ strtoupper($row->state) }}</td>
+                            <td>
+                            <select name="collection" class="collection" {{ $row->border_level != 1 ? 'disabled' : '' }}>
+                            @foreach($collects as $key => $collect)
+                                <option data-id="{{$row->id}}" value="{{$collect->id}}" {{$collect->id == $row->collection_id ? 'selected' : ''}}>{{$collect->collection_name}}</option>
+                            @endforeach
+                            </select>
+                            </td>
                             <td><a class="basicreset" data-id="{{ $row->id }}" data-toggle="modal"><i class="fa fa-exchange" data-toggle="tooltip" title="Reset"></i></a></td>
                     </tr>
                 @endforeach
@@ -227,6 +235,7 @@
     $('.levelaccepted3').change(function () {
         var checked = $(this).is(':checked');
         var id = $(this).val();
+        var select =  $(this).parents('tr').find('td:eq(12) select');
         if(checked){
             $.ajax({
                 headers: {
@@ -237,6 +246,7 @@
                 data: {user_id:id,flag:checked},
                 success: function (response) { // What to do if we succeed
                     console.log(response);
+                    select.attr('disabled', false);
                     alert('Tracing border editer level is setted');
 
                 },
@@ -254,6 +264,7 @@
                 data: {user_id:id,flag:checked},
                 success: function (response) { // What to do if we succeed
                     console.log(response);
+                    select.attr('disabled', true);
                     alert('Tracing border editer level is unsetted');
 
                 },
@@ -264,6 +275,30 @@
         }
 
 
+    });
+
+    $(document).on('change', 'select', function (e) {
+        var collection_id = $(this).val();
+        var user_id = $(this).find('option:selected').data('id');
+        $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: './users/collection',
+                type: "post",
+                data: {
+                    user_id:user_id,
+                    collection_id:collection_id
+                },
+                success: function (response) { // What to do if we succeed
+                    console.log(response);
+                    alert('Collection changed');
+
+                },
+                error: function (response) {
+                    alert('Error' + response);
+                }
+            });
     });
 
     $('.levelaccepted4').change(function () {
