@@ -42,6 +42,7 @@ class UserController extends Controller
                 'gbv_level'=>$user->gbv_level,
                 'chv_level'=>$user->chv_level,
                 'state'=>$user->state,
+                'collection_id'=>$user->collection_id,
                 'profile_image'=>$user->profile_image,
                 );
                 $conversation_id = DB::table('message')->where('sender_id',$user->id)->first();
