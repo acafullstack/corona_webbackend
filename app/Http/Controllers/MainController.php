@@ -181,7 +181,7 @@ class MainController extends Controller
         $to = date("d/m/Y",strtotime($requests->to));
         $toarr = explode("/", $to);
         $to  = $toarr[1].'/'.$toarr[0].'/'.$toarr[2];
-        $all_check_ins = Passenger::all();
+        $all_check_ins = Passenger::where('pubdate', '>=', $from)->where('pubdate', '<', $to)->get();
         // $data = $all_check_ins->toArray();
         $data = [];
         foreach($all_check_ins as $key=>$val){
