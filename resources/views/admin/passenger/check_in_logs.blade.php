@@ -85,21 +85,23 @@
     }
     var handleRecords = function () {
         var table =  $('#table_1').DataTable({
-                "language": {
-                    "aria": {
-                        "sortAscending": ": activate to sort column ascending",
-                        "sortDescending": ": activate to sort column descending"
-                    },
-                    "emptyTable": "No data available in table",
-                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                    "infoEmpty": "No entries found",
-                    "infoFiltered": "(filtered1 from _MAX_ total entries)",
-                    "lengthMenu": "Show _MENU_ entries",
-                    "search": "Search:",
-                    "zeroRecords": "No matching records found"
-                },
+                // "language": {
+                //     "aria": {
+                //         "sortAscending": ": activate to sort column ascending",
+                //         "sortDescending": ": activate to sort column descending"
+                //     },
+                //     "emptyTable": "No data available in table",
+                //     "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                //     "infoEmpty": "No entries found",
+                //     "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                //     "lengthMenu": "Show _MENU_ entries",
+                //     "search": "Search:",
+                //     "zeroRecords": "No matching records found"
+                // },
                 destroy: true,
                 "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                "processing": true,
+                "serverSide": true,
                 "ajax": "{{url('/admin/ajax_tracing_passenger')}}?from="+$('#startdate').val()+"&to="+$('#enddate').val(),
                 // ajax: function (data, callback, settings) {
 				// $.ajax({
@@ -134,22 +136,22 @@
                     { "data": "publish_date" },
                     { "data": "collection" },
                 ],
-                "lengthMenu": [
-                    [5, 15, 20, -1],
-                    [5, 15, 20, "All"] // change per page values here
-                ],
-                // set the initial value
-                "pageLength": 5,
-                "language": {
-                    "lengthMenu": " _MENU_ records"
-                },
-                "columnDefs": [{  // set default column settings
-                    'orderable': false,
-                    'targets': [-1]
-                }, {
-                    "searchable": false,
-                    "targets": [0]
-                }],
+                // "lengthMenu": [
+                //     [5, 15, 20, -1],
+                //     [5, 15, 20, "All"] // change per page values here
+                // ],
+                // // set the initial value
+                // "pageLength": 5,
+                // "language": {
+                //     "lengthMenu": " _MENU_ records"
+                // },
+                // "columnDefs": [{  // set default column settings
+                //     'orderable': false,
+                //     'targets': [-1]
+                // }, {
+                //     "searchable": false,
+                //     "targets": [0]
+                // }],
                 "order": [
                     [0, "asc"]
                 ], // set first column as a default sort by asc

@@ -174,6 +174,7 @@ class MainController extends Controller
         return view('admin.passenger.check_in_logs', compact('all_check_ins'));
     }
     public function ajax_tracing_passenger(Request $requests){
+        // dd($requests->all());
         $from = date("d/m/Y",strtotime($requests->from));
         $fromarr = explode("/", $from);
         $from  = $fromarr[1].'/'.$fromarr[0].'/'.$fromarr[2];
@@ -212,8 +213,9 @@ class MainController extends Controller
                 }
             }
         } 
+        $datatable = array_slice($data, $requests->start, $requests->length);
         // dd($data);
-        return response()->json(['data' => $data, 'draw' => 3, 'recordsTotal' => count($data), 'recordsFiltered' => count($data)]);
+        return response()->json(['data' => $datatable, 'draw' => $requests->draw, 'recordsTotal' => count($data), 'recordsFiltered' => count($data)]);
     }
     public function get_gbv(){
         $all_check_ins = \App\GbvList::orderBy('id', 'DESC')->get();
