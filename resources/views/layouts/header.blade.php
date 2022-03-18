@@ -680,47 +680,15 @@ div.dataTables_wrapper div.dataTables_filter input {
       
       <script>
             notification_count();
-         //   get_reports();
+            //get_reports();
             function notification_count(){
                 var notification_count = "<?php echo isset(\App\Report_Notifications::first()->notification_count)?\App\Report_Notifications::first()->notification_count:"" ?>";
                 $("#notification_count").text(notification_count);
             }
             setInterval(function(){ 
                 notification_count();
-           //     get_reports();
+                //get_reports();
             }, 1000);
-            
-            function get_reports(){
-                $("#report_notifications").empty();
-                var notification_count = "<?php echo isset(\App\Report_Notifications::first()->notification_count)?\App\Report_Notifications::first()->notification_count:"" ?>";
-                var report_ids = "<?php echo isset(\App\Report_Notifications::first()->report_ids)?\App\Report_Notifications::first()->report_ids:"" ?>";
-                if(report_ids.length > 0){
-                    $.each(report_ids, function(key, value){
-                        setCookie('value', value, 1);
-
-                        var report_type = "<?php echo strtoupper(isset(\App\Reports::where('id', $_COOKIE['value'] )->first()->report_type)?\App\Reports::where('id', $_COOKIE['value'] )->first()->report_type:""); ?>";
-                        var time = "<?php echo isset(\App\Reports::where('id', $_COOKIE['value'] )->first()->created_at)?\App\Reports::where('id', $_COOKIE['value'] )->first()->created_at:"" ?>";
-                        
-                        var createdDate = new Date(time);
-                        var date = createdDate.toLocaleDateString();
-                        
-                        var day = createdDate.getDate();
-                        var month = createdDate.getMonth() + 1; //months are zero based
-                        var year = createdDate.getFullYear();
-                        
-                        var time = createdDate.toLocaleTimeString().replace(/(.*)\D\d+/, '$1');
-                        
-                        $("#report_notifications").append(
-                            `<div class="dropdown-divider"></div>
-                              <a href="#" class="dropdown-item">
-                                <i class="fa fa-envelope mr-2">`+report_type+`</i>
-                                <span class="float-right text-muted text-sm">`+day + '-' + month + '-' + year + ' ' + time+`</span>
-                              </a>
-                             <div class="dropdown-divider"></div>`
-                        );
-                    });
-                }
-            }
             
             function setCookie(cname, cvalue, exdays) {
               var d = new Date();
